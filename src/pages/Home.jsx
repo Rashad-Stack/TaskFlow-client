@@ -46,25 +46,15 @@ export default function Home() {
 
     if (!over) return;
 
-    console.log(
-      columns,
-      over,
-      over.id,
-      Object.keys(columns).find((key) => {
-        console.log(columns[key]);
-        return columns[key].includes(over.id);
-      })
-    );
-
     const activeContainer = Object.keys(columns).find((key) =>
       columns[key].includes(active.id)
     );
     const overContainer = over.id;
-    console.log(activeContainer, overContainer);
 
     if (!activeContainer || !overContainer) return;
 
     if (activeContainer === overContainer) {
+      console.log("same container");
       setColumns((prev) => ({
         ...prev,
         [activeContainer]: arrayMove(
@@ -74,6 +64,7 @@ export default function Home() {
         ),
       }));
     } else {
+      console.log("another container");
       setColumns((prev) => {
         const activeItems = [...prev[activeContainer]];
         const overItems = [...prev[overContainer]];
