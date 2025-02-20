@@ -1,6 +1,7 @@
 import Protected from "./components/protected";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
-import { login } from "./utils/services";
+import { loadUser, login, logout } from "./utils/services";
 
 export default [
   {
@@ -8,6 +9,13 @@ export default [
     element: <Protected />,
     hydrateFallbackElement: <div>Loading...</div>,
     errorElement: <div>Error...</div>,
+    loader: loadUser,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+    ],
   },
   {
     path: "/login",
@@ -18,5 +26,9 @@ export default [
   {
     path: "google-login",
     action: login,
+  },
+  {
+    path: "google-logout",
+    action: logout,
   },
 ];
