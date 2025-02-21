@@ -19,6 +19,7 @@ import Draggable from "../components/Draggable";
 import Droppable from "../components/Droppable";
 import Header from "../components/Header";
 
+import DeleteTask from "../components/DeleteTask";
 import axiosFetch from "../utils/axiosFetch";
 import socket from "../utils/socket";
 
@@ -111,10 +112,14 @@ export default function Home() {
                 </div>
                 <SortableContext
                   items={columns[columnId]}
-                  strategy={verticalListSortingStrategy}>
+                  strategy={verticalListSortingStrategy}
+                  onDragEnd={handleDragEnd}>
                   {columns[columnId].map((item) => (
                     <Draggable key={item._id} id={item}>
-                      {item.title}
+                      <div>
+                        {item.title}
+                        <DeleteTask id={item._id} />
+                      </div>
                     </Draggable>
                   ))}
                 </SortableContext>

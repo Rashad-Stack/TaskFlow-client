@@ -93,3 +93,13 @@ export const getTodos = async () => {
     return toast.error(error.message);
   }
 };
+
+export const deleteTodo = async ({ params }) => {
+  try {
+    await axiosFetch.delete(`tasks/${params.id}`);
+    return toast.success("Todo deleted successfully!");
+  } catch (error) {
+    console.error(error);
+    return toast.error(error.message);
+  }
+};

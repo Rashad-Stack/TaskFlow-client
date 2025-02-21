@@ -1,7 +1,14 @@
 import Protected from "./components/Protected";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import { addTodo, getTodos, loadUser, login, logout } from "./utils/services";
+import {
+  addTodo,
+  deleteTodo,
+  getTodos,
+  loadUser,
+  login,
+  logout,
+} from "./utils/services";
 
 export default [
   {
@@ -35,5 +42,9 @@ export default [
   {
     path: "add-todo",
     action: addTodo,
+  },
+  {
+    path: "todo/:id",
+    action: deleteTodo,
   },
 ];
