@@ -1,4 +1,4 @@
-import Protected from "./components/protected";
+import Protected from "./components/Protected";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { addTodo, getTodos, loadUser, login, logout } from "./utils/services";
