@@ -53,6 +53,7 @@ export const loadUser = async () => {
       (user) => {
         if (user) {
           resolve(user);
+          localStorage.setItem("token", user.accessToken);
         } else {
           resolve(null);
         }

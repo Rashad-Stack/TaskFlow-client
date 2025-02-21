@@ -12,7 +12,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import React, { useState } from "react";
+import { useState } from "react";
 import { ScrollRestoration, useLoaderData } from "react-router";
 import AddTodo from "../components/AddTodo";
 import Draggable from "../components/Draggable";
@@ -25,18 +25,11 @@ const initialColumns = {
   Done: [],
 };
 
-const initialItems = {
-  "item-1": "Item 1",
-  "item-2": "Item 2",
-  "item-3": "Item 3",
-};
-
 export default function Home() {
   const todos = useLoaderData();
-  const [columns, setColumns] = useState(initialColumns);
-  const [items, setItems] = useState(initialItems);
+  const [columns, setColumns] = useState(todos || {});
 
-  console.log(todos);
+  // console.log(todos);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -50,9 +43,11 @@ export default function Home() {
 
     if (!over) return;
 
-    const activeContainer = Object.keys(columns).find((key) =>
-      columns[key].includes(active.id)
-    );
+    const activeContainer = Object.keys(columns).find((key) => {
+      return columns[key].includes(active.id);
+    });
+
+    // console.log(activeContainer);
     const overContainer = over.id;
 
     if (!activeContainer || !overContainer) return;
@@ -96,28 +91,30 @@ export default function Home() {
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}>
           <div className="grid grid-cols-3 gap-4">
-            {Object.keys(columns).map((columnId) => (
-              <Droppable key={columnId} id={columnId}>
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-lg font-bold mb-2 capitalize">
-                    {columnId.replace("-", " ")}
-                  </h2>
+            {todos &&
+              Object.keys(todos).map((columnId) => (
+                <Droppable key={columnId} id={columnId}>
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-lg font-bold mb-2 capitalize">
+                      {columnId.replace("-", " ")}
+                    </h2>
 
-                  <AddTodo columnId={columnId} />
-                </div>
+                    <AddTodo columnId={columnId} />
+                  </div>
 
-                <SortableContext
-                  onDragEnd={handleDragEnd}
-                  items={columns[columnId]}
-                  strategy={verticalListSortingStrategy}>
-                  {columns[columnId].map((itemId) => (
-                    <Draggable key={itemId} id={itemId}>
-                      {items[itemId]}
-                    </Draggable>
-                  ))}
-                </SortableContext>
-              </Droppable>
-            ))}
+                  <SortableContext
+                    onDragEnd={handleDragEnd}
+                    items={columns[columnId]}
+                    strategy={verticalListSortingStrategy}>
+                    {columns &&
+                      columns[columnId].map((item) => (
+                        <Draggable key={item._id} id={item._id}>
+                          {item.title}
+                        </Draggable>
+                      ))}
+                  </SortableContext>
+                </Droppable>
+              ))}
           </div>
         </DndContext>
         <ScrollRestoration />
