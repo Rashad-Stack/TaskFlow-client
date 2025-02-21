@@ -55,14 +55,16 @@ export default function Home() {
 
     if (activeContainer === overContainer) {
       console.log("same container");
-      setColumns((prev) => ({
-        ...prev,
-        [activeContainer]: arrayMove(
-          prev[activeContainer],
-          prev[activeContainer].indexOf(active.id),
-          prev[activeContainer].indexOf(over.id)
-        ),
-      }));
+      setColumns((prev) => {
+        return {
+          ...prev,
+          [activeContainer]: arrayMove(
+            prev[activeContainer],
+            prev[activeContainer].indexOf(active.id),
+            prev[activeContainer].indexOf(over.id)
+          ),
+        };
+      });
     } else {
       console.log("another container");
       setColumns((prev) => {
@@ -96,6 +98,7 @@ export default function Home() {
                   {columnId.replace("-", " ")}
                 </h2>
                 <SortableContext
+                  onDragEnd={handleDragEnd}
                   items={columns[columnId]}
                   strategy={verticalListSortingStrategy}>
                   {columns[columnId].map((itemId) => (
