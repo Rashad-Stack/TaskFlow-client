@@ -1,7 +1,7 @@
 import Protected from "./components/protected";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import { loadUser, login, logout } from "./utils/services";
+import { addTodo, getTodos, loadUser, login, logout } from "./utils/services";
 
 export default [
   {
@@ -14,6 +14,7 @@ export default [
       {
         index: true,
         element: <Home />,
+        loader: getTodos,
       },
     ],
   },
@@ -30,5 +31,9 @@ export default [
   {
     path: "google-logout",
     action: logout,
+  },
+  {
+    path: "add-todo",
+    action: addTodo,
   },
 ];

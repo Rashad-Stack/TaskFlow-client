@@ -61,3 +61,33 @@ export const loadUser = async () => {
     );
   });
 };
+
+export const addTodo = async ({ request }) => {
+  try {
+    const formData = await request.formData();
+    const todo = Object.fromEntries(formData);
+
+    Object.keys(todo).forEach((field) => {
+      if (!todo[field]) {
+        throw new Error(`${field} is required field!`);
+      }
+    });
+
+    await axiosFetch.post("tasks", todo);
+
+    return toast.success("Todo added successfully!");
+  } catch (error) {
+    console.error(error);
+    return toast.error(error.message);
+  }
+};
+
+export const getTodos = async () => {
+  try {
+    const { data } = await axiosFetch.get("tasks");
+    return data;
+  } catch (error) {
+    console.error(error);
+    return toast.error(error.message);
+  }
+};
