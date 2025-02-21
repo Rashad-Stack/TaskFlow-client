@@ -34,6 +34,7 @@ axiosFetch.interceptors.response.use(
     console.error(error);
     if (error.response.status === 401) {
       signOut(auth);
+      localStorage.removeItem("token");
     }
     return Promise.reject(error);
   }

@@ -39,6 +39,7 @@ export const login = async () => {
 export const logout = async () => {
   try {
     await signOut(auth);
+    localStorage.removeItem("token");
     return redirect("/");
   } catch (error) {
     console.error(error);
