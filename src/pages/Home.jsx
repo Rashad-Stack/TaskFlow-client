@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
-
 import {
   DndContext,
   DragOverlay,
@@ -16,41 +14,17 @@ import {
 } from "@dnd-kit/sortable";
 
 // Components
-import { Input } from "@headlessui/react";
 import { useState } from "react";
 import { useLoaderData } from "react-router";
-import Button from "../components/Button";
 import Container from "../components/Container";
 import Header from "../components/Header";
 import Item from "../components/Item";
-import Modal from "../components/Modal";
 
 export default function Home() {
   const tasks = useLoaderData();
 
-  console.log(tasks);
-
   const [containers, setContainers] = useState(tasks || []);
   const [activeId, setActiveId] = useState(null);
-  const [currentContainerId, setCurrentContainerId] = useState();
-  const [itemName, setItemName] = useState("");
-  const [showAddItemModal, setShowAddItemModal] = useState(false);
-  // console.log({ containers });
-  // console.log({ activeId });
-
-  const onAddItem = () => {
-    if (!itemName) return;
-    const id = `item-${uuidv4()}`;
-    const container = containers.find((item) => item.id === currentContainerId);
-    if (!container) return;
-    container.items.push({
-      id,
-      title: itemName,
-    });
-    setContainers([...containers]);
-    setItemName("");
-    setShowAddItemModal(false);
-  };
 
   // Find the value of the items
   function findValueOfItems(id, type) {
@@ -305,23 +279,6 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <div className="mx-auto max-w-7xl py-10">
-          {/* Add Item Modal */}
-          <Modal
-            showModal={showAddItemModal}
-            setShowModal={setShowAddItemModal}>
-            <div className="flex flex-col w-full items-start gap-y-4">
-              <h1 className="text-gray-800 text-3xl font-bold">Add Item</h1>
-              <Input
-                type="text"
-                placeholder="Item Title"
-                name="itemname"
-                value={itemName}
-                onChange={(e) => setItemName(e.target.value)}
-              />
-              <Button onClick={onAddItem}>Add Item</Button>
-            </div>
-          </Modal>
-
           <div className="mt-10">
             <div className="grid grid-cols-3 gap-6">
               <DndContext
@@ -336,11 +293,7 @@ export default function Home() {
                       <Container
                         id={container.category}
                         title={container.category}
-                        key={container.category}
-                        onAddItem={() => {
-                          setShowAddItemModal(true);
-                          setCurrentContainerId(container.category);
-                        }}>
+                        key={container.category}>
                         <SortableContext
                           items={containers.map((i) => i.category)}>
                           <div className="flex items-start flex-col gap-y-4">

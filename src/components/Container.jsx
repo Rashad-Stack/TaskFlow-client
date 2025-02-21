@@ -1,15 +1,9 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import clsx from "clsx";
-import Button from "./Button";
+import AddTodo from "./AddTodo";
 
-export default function Container({
-  id,
-  children,
-  title,
-  description,
-  onAddItem,
-}) {
+export default function Container({ id, children, title, description }) {
   const { attributes, setNodeRef, transform, transition, isDragging } =
     useSortable({
       id: id,
@@ -38,9 +32,7 @@ export default function Container({
       </div>
 
       {children}
-      <Button variant="ghost" onClick={onAddItem}>
-        Add Item
-      </Button>
+      <AddTodo container={id} />
     </div>
   );
 }
